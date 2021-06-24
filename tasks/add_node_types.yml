@@ -6,6 +6,10 @@
       meta: end_play
   when: (item.virtual_image_name is defined) and (item.virtual_image_id is defined)
 
+- name: Print names
+  debug:
+    msg: "Searching for {{ item.name }} and type {{ item.imageType }}"
+
 - name: Search for Virtual Image
   uri:
     url: "{{ morpheus_api }}/virtual-images?name={{ item.virtual_image_name | urlencode }}&imageType={{ item.imageType | urlencode }}"
@@ -26,7 +30,7 @@
 
 - name: Check for existing Node Type
   uri:
-    url: "{{ morpheus_api }}/library/container-types?name={{ item.name | urlencode }}&imageType={{ item.provisionTypeCode | urlencode }}"
+    url: "{{ morpheus_api }}/library/container-types?name={{ item.name | urlencode }}&provisionType={{ item.provisionTypeCode | urlencode }}"
     method: get
     headers:
       authorization: "BEARER {{ morpheus_token }}"
